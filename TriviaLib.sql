@@ -46,33 +46,33 @@ create table stats(
     numCorrect int,
     timesAskeed int);
 
-insert into Stats values (101, 0 , 0 , 0, 0, 0);
-insert into Stats values (102, 0 , 0 , 0, 0, 0);
-insert into Stats values (103, 0 , 0 , 0, 0, 0);
-insert into Stats values (104, 0 , 0 , 0, 0, 0);
-insert into Stats values (105, 0 , 0 , 0, 0, 0);
-insert into Stats values (106, 0 , 0 , 0, 0, 0);
-insert into Stats values (107, 0 , 0 , 0, 0, 0);
-insert into Stats values (108, 0 , 0 , 0, 0, 0);
-insert into Stats values (109, 0 , 0 , 0, 0, 0);
-insert into Stats values (110, 0 , 0 , 0, 0, 0);
-insert into Stats values (111, 0 , 0 , 0, 0, 0);
-insert into Stats values (112, 0 , 0 , 0, 0, 0);
-insert into Stats values (113, 0 , 0 , 0, 0, 0);
-insert into Stats values (114, 0 , 0 , 0, 0, 0);
-insert into Stats values (115, 0 , 0 , 0, 0, 0);
-insert into Stats values (116, 0 , 0 , 0, 0, 0);
-insert into Stats values (117, 0 , 0 , 0, 0, 0);
-insert into Stats values (118, 0 , 0 , 0, 0, 0);
-insert into Stats values (119, 0 , 0 , 0, 0, 0);
-insert into Stats values (120, 0 , 0 , 0, 0, 0);
-
+insert into Stats values (101, 0 , 0 , 0, 0, 0, 0);
+insert into Stats values (102, 0 , 0 , 0, 0, 0, 0);
+insert into Stats values (103, 0 , 0 , 0, 0, 0, 0);
+insert into Stats values (104, 0 , 0 , 0, 0, 0, 0);
+insert into Stats values (105, 0 , 0 , 0, 0, 0, 0);
+insert into Stats values (106, 0 , 0 , 0, 0, 0, 0);
+insert into Stats values (107, 0 , 0 , 0, 0, 0, 0);
+insert into Stats values (108, 0 , 0 , 0, 0, 0, 0);
+insert into Stats values (109, 0 , 0 , 0, 0, 0, 0);
+insert into Stats values (110, 0 , 0 , 0, 0, 0, 0);
+insert into Stats values (111, 0 , 0 , 0, 0, 0, 0);
+insert into Stats values (112, 0 , 0 , 0, 0, 0, 0);
+insert into Stats values (113, 0 , 0 , 0, 0, 0, 0);
+insert into Stats values (114, 0 , 0 , 0, 0, 0, 0);
+insert into Stats values (115, 0 , 0 , 0, 0, 0, 0);
+insert into Stats values (116, 0 , 0 , 0, 0, 0, 0);
+insert into Stats values (117, 0 , 0 , 0, 0, 0, 0);
+insert into Stats values (118, 0 , 0 , 0, 0, 0, 0);
+insert into Stats values (119, 0 , 0 , 0, 0, 0, 0);
+insert into Stats values (120, 0 , 0 , 0, 0, 0, 0);
 
 select * from Stats;
 
 drop table if exists Asked;
 create table stats(
     QNo int,
-    Id int);
+    Id int
+    correct int);
 
 select * from Asked;
