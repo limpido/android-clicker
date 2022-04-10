@@ -22,6 +22,9 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
+import android.os.CountDownTimer;
+import android.widget.TextView;
+
 public class QuizActivity extends AppCompatActivity implements View.OnClickListener{
     ProgressDialog pd;
     TextView txtJson;
@@ -31,6 +34,8 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
     Button optionBtn3;
     Button optionBtn4;
     Button submitBtn;
+    TextView txtTimer;
+
 
     ArrayList<Button> optionBtns = new ArrayList<Button>();
     JSONArray questions = null;
@@ -38,7 +43,7 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
     int currQuestionIndex = 0;
     int correctCount = 0;
 
-    private TextView txtTimer;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,11 +55,25 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
         mediaPlayer.start();
 
         questionDescText = findViewById(R.id.questionDescText);
+
         optionBtn1 = findViewById(R.id.optionBtn1);
         optionBtn2 = findViewById(R.id.optionBtn2);
         optionBtn3 = findViewById(R.id.optionBtn3);
         optionBtn4 = findViewById(R.id.optionBtn4);
         submitBtn = findViewById(R.id.submitBtn);
+
+        txtTimer = (TextView)  findViewById(R.id.txtTimer);
+        // Count down from 60 sec. onTick() every second. Values in milliseconds
+        new CountDownTimer(10000, 1000) {
+            public void onTick(long millisRemaining) {
+                txtTimer.setText("Seconds remaining: " + millisRemaining / 1000);
+            }
+            public void onFinish() {
+
+                submitBtn.performClick();
+                start();
+            }
+        }.start();
 
         optionBtn1.setOnClickListener(this);
         optionBtn2.setOnClickListener(this);
@@ -90,6 +109,11 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
                 optionBtn4.setSelected(true);
                 this.selectedOptionIndex = 4;
                 break;
+
+            default:
+                this.selectedOptionIndex = 0;
+
+
         }
     }
 
