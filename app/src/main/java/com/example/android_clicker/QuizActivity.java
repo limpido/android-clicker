@@ -42,7 +42,7 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
     int selectedOptionIndex = 0;
     int currQuestionIndex = 0;
     int correctCount = 0;
-
+    CountDownTimer timer;
 
 
     @Override
@@ -64,16 +64,14 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
 
         txtTimer = (TextView)  findViewById(R.id.txtTimer);
         // Count down from 60 sec. onTick() every second. Values in milliseconds
-        new CountDownTimer(10000, 1000) {
+        timer = new CountDownTimer(10000, 1000) {
             public void onTick(long millisRemaining) {
                 txtTimer.setText("Seconds remaining: " + millisRemaining / 1000);
             }
             public void onFinish() {
-
                 submitBtn.performClick();
-                start();
             }
-        }.start();
+        };
 
         optionBtn1.setOnClickListener(this);
         optionBtn2.setOnClickListener(this);
@@ -179,6 +177,7 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
             try {
                 questions = new JSONArray(result);
                 setQuestion(currQuestionIndex);
+                timer.start();
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -206,6 +205,7 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
 
     public void nextQuestion(View view) {
         if (currQuestionIndex == 4) {
+            timer.cancel();
             Intent intent = new Intent(this, ResultActivity.class);
             intent.putExtra("correctCount", correctCount);
             finish();
@@ -219,11 +219,17 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
                 deselectButtons();
                 currQuestionIndex++;
                 setQuestion(currQuestionIndex);
+                restartTimer();
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
         }
+    }
+
+    private void restartTimer() {
+        timer.cancel();
+        timer.start();
     }
 
 
