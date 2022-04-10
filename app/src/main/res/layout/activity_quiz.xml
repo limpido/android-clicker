@@ -21,27 +21,32 @@
         <Button
             android:id="@+id/optionBtn1"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/button_option_background_color"/>
 
         <Button
             android:id="@+id/optionBtn2"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/button_option_background_color"/>
 
         <Button
             android:id="@+id/optionBtn3"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/button_option_background_color"/>
 
         <Button
             android:id="@+id/optionBtn4"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/button_option_background_color"/>
 
-        <TextView
-            android:id="@+id/textJson"
+        <Button
+            android:id="@+id/submitBtn"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:onClick="nextQuestion" />
 
     </LinearLayout>
 </ScrollView>
