@@ -94,8 +94,6 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
     private class GetQuestions extends AsyncTask<String, String, String> {
         protected void onPreExecute() {
             super.onPreExecute();
-            Log.i(null, "onPreExecute!!!");
-
             pd = new ProgressDialog(QuizActivity.this);
             pd.setMessage("Loading...");
             pd.setCancelable(false);
