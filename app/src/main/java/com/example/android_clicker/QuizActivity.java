@@ -3,11 +3,13 @@ package com.example.android_clicker;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
+import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
+import android.os.CountDownTimer;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -27,13 +29,20 @@ public class QuizActivity extends AppCompatActivity {
     Button optionBtn2;
     Button optionBtn3;
     Button optionBtn4;
-
+    private TextView txtTimer;
     int currQuestionIndex = 0;
     JSONArray questions = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+        final MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.jeopardythemesong);
+        mediaPlayer.setLooping(true);
+        mediaPlayer.start();
+
+
         setContentView(R.layout.activity_quiz);
 
         txtJson = (TextView) findViewById(R.id.textJson);
