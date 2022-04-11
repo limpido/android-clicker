@@ -35,7 +35,6 @@
             android:id="@+id/txtTimer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="hello world!"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -54,7 +53,7 @@
             android:id="@+id/optionBtn1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/black"
+            android:backgroundTint="@color/button_option_background_color"
             android:fontFamily="@font/fontfam"
             android:textSize="24sp"
             android:textColor="#FCFF0000"/>
@@ -63,7 +62,7 @@
             android:id="@+id/optionBtn2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/black"
+            android:backgroundTint="@color/button_option_background_color"
             android:fontFamily="@font/fontfam"
             android:textSize="24sp"
             android:textColor="#FCFF0000"/>
@@ -73,7 +72,7 @@
             android:id="@+id/optionBtn4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/black"
+            android:backgroundTint="@color/button_option_background_color"
             android:fontFamily="@font/fontfam"
             android:textSize="24sp"
             android:textColor="#FCFF0000"/>
@@ -82,7 +81,7 @@
             android:id="@+id/optionBtn3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/black"
+            android:backgroundTint="@color/button_option_background_color"
             android:fontFamily="@font/fontfam"
             android:textSize="24sp"
             android:textColor="#FCFF0000"/>
