@@ -15,9 +15,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
@@ -30,7 +34,6 @@ import android.widget.TextView;
 
 public class QuizActivity extends AppCompatActivity implements View.OnClickListener{
     ProgressDialog pd;
-    TextView txtJson;
     TextView questionDescText;
     Button optionBtn1;
     Button optionBtn2;
@@ -42,11 +45,13 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
 
     ArrayList<Button> optionBtns = new ArrayList<Button>();
     JSONArray questions = null;
+    JSONObject currQuestion = null;
     int selectedOptionIndex = 0;
     int currQuestionIndex = 0;
     int correctCount = 0;
     CountDownTimer timer;
     int[] indexArray = new int[5];
+    JSONObject currAnswerStats = new JSONObject();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,11 +115,9 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
                 optionBtn4.setSelected(true);
                 this.selectedOptionIndex = 4;
                 break;
-
             default:
                 this.selectedOptionIndex = 0;
-
-
+                break;
         }
     }
 
@@ -198,11 +201,58 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    private void setQuestion(int currQuestionIndex) {
+    private void saveCurrAnswerStats() {
+        new SaveAnswerStats().execute("http://192.168.1.102:9999/clicker/stats");
+    }
+
+    private class SaveAnswerStats extends AsyncTask<String, String, String> {
+        @Override
+        protected String doInBackground(String... params) {
+            HttpURLConnection urlConnection = null;
+
+            try {
+                URL url = new URL(params[0]);
+                urlConnection = (HttpURLConnection) url.openConnection();
+                urlConnection.setRequestMethod("POST");
+                urlConnection.setRequestProperty("Content-Type", "application/json");
+                urlConnection.setRequestProperty("Content-Length", Integer.toString(currAnswerStats.toString().getBytes().length));
+                urlConnection.setUseCaches(false);
+                urlConnection.setDoOutput(true);
+
+                Log.d(null, currAnswerStats.toString());
+                OutputStream os = urlConnection.getOutputStream();
+                BufferedWriter writer = new BufferedWriter(
+                        new OutputStreamWriter(os, "UTF-8"));
+                writer.write(currAnswerStats.toString());
+                writer.flush();
+                writer.close();
+                os.close();
+
+                if (urlConnection instanceof HttpURLConnection) {
+                    HttpURLConnection httpConn = (HttpURLConnection) urlConnection;
+                    int statusCode = httpConn.getResponseCode();
+                    Log.d(null, Integer.toString(statusCode));
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+//                if (urlConnection != null)
+//                    urlConnection.disconnect();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+        }
+    }
+
+    private void setQuestion(int qindex) {
         try {
-            JSONObject question = questions.getJSONObject(currQuestionIndex);
-            questionDescText.setText(question.getString("description"));
-            JSONArray options = question.getJSONArray("options");
+            currQuestion = questions.getJSONObject(qindex);
+            questionDescText.setText(currQuestion.getString("description"));
+            JSONArray options = currQuestion.getJSONArray("options");
             optionBtn1.setText(options.getJSONObject(0).getString("description"));
             optionBtn2.setText(options.getJSONObject(1).getString("description"));
             optionBtn3.setText(options.getJSONObject(2).getString("description"));
@@ -220,6 +270,23 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
     public void nextQuestion(View view) {
         final MediaPlayer mediaPlayer2 = MediaPlayer.create(this, R.raw.scream);
         mediaPlayer2.start();
+        Log.d(null, currQuestion.toString());
+        try {
+            JSONObject question = questions.getJSONObject(currQuestionIndex);
+            int correctAns = question.getInt("correctAns");
+            if (correctAns == selectedOptionIndex) {
+                correctCount++;
+                currAnswerStats.put("isCorrect", true);
+            } else {
+                currAnswerStats.put("isCorrect", false);
+            }
+            currAnswerStats.put("selectedOption", selectedOptionIndex);
+            currAnswerStats.put("id", currQuestion.getInt("questionId"));
+            saveCurrAnswerStats();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
         if (currQuestionIndex == 4) {
             timer.cancel();
             Intent intent = new Intent(this, ResultActivity.class);
@@ -227,19 +294,10 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
             finish();
             startActivity(intent);
         } else {
-            try {
-                JSONObject question = questions.getJSONObject(currQuestionIndex);
-                int correctAns = question.getInt("correctAns");
-                if (correctAns == selectedOptionIndex)
-                    correctCount++;
-                deselectButtons();
-                currQuestionIndex++;
-                setQuestion(indexArray[currQuestionIndex] );
-                restartTimer();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
+            deselectButtons();
+            currQuestionIndex++;
+            setQuestion(indexArray[currQuestionIndex] );
+            restartTimer();
         }
     }
 

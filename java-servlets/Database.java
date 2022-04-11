@@ -54,5 +54,47 @@ public class Database {
 		return null;
 	}
 
+	public void updateStats(JsonObject stats) throws SQLException {
+		try {
+			Map<String, String> values = new HashMap<>();
+			values.put("id", stats.get("id").getAsString());
+			values.put("choice1", stats.get("choice1").getAsString());
+			values.put("choice2", stats.get("choice2").getAsString());
+			values.put("choice3", stats.get("choice3").getAsString());
+			values.put("choice4", stats.get("choice4").getAsString());
+			values.put("numCorrect", stats.get("numCorrect").getAsString());
+			values.put("timesAsked", stats.get("timesAsked").getAsString());
+			StringSubstitutor sub = new StringSubstitutor(values);
+			String query = sub.replace("INSERT INTO Stats (id, choice1, choice2, choice3, choice4, numCorrect, timesAsked) VALUES (${id}, ${choice1}, ${choice2}, ${choice3}, ${choice3}, ${numCorrect}, ${timesAsked}) ON DUPLICATE KEY UPDATE choice1=${choice1}, choice2=${choice2}, choice3=${choice3}, choice4=${choice4}, numCorrect=${numCorrect}, timesAsked=${timesAsked};");
+			System.out.println(query);
+			this.stmt.executeUpdate(query);
+		} catch(Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
+
+	public JsonObject getStats(int id) throws SQLException {
+		try {
+			Map<String, String> values = new HashMap<>();
+			values.put("id", Integer.toString(id));
+			StringSubstitutor sub = new StringSubstitutor(values);
+			String query = sub.replace("SELECT * FROM Stats WHERE id=${id};");
+			ResultSet rset = this.stmt.executeQuery(query);			
+			rset.next();
+
+			JsonObject stats = new JsonObject();
+			stats.addProperty("id", rset.getInt("id"));
+			stats.addProperty("choice1", rset.getInt("choice1"));
+			stats.addProperty("choice2", rset.getInt("choice2"));
+			stats.addProperty("choice3", rset.getInt("choice3"));
+			stats.addProperty("choice4", rset.getInt("choice4"));
+			stats.addProperty("numCorrect", rset.getInt("numCorrect"));
+			stats.addProperty("timesAsked", rset.getInt("timesAsked"));
+			return stats;
+		} catch(Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return null;
+	}
 
 }
