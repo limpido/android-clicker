@@ -21,6 +21,9 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 import android.os.CountDownTimer;
 import android.widget.TextView;
@@ -43,7 +46,7 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
     int currQuestionIndex = 0;
     int correctCount = 0;
     CountDownTimer timer;
-
+    int[] indexArray = new int[5];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -176,7 +179,18 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
             }
             try {
                 questions = new JSONArray(result);
-                setQuestion(currQuestionIndex);
+                int length = questions.length();
+                Set<Integer> indexSet = new HashSet<>();
+                while(indexSet.size() != 5){
+                    int randomIndex = 1 + (int) (Math.random() * length);
+                    indexSet.add(randomIndex);
+                }
+                int i = 0;
+                for (int index: indexSet) {
+                    indexArray[i++] = index;
+                }
+
+                setQuestion(indexArray[currQuestionIndex]);
                 timer.start();
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -220,7 +234,7 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
                     correctCount++;
                 deselectButtons();
                 currQuestionIndex++;
-                setQuestion(currQuestionIndex);
+                setQuestion(indexArray[currQuestionIndex] );
                 restartTimer();
             } catch (JSONException e) {
                 e.printStackTrace();
