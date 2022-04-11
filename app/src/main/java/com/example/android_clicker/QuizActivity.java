@@ -50,7 +50,7 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz);
 
-        final MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.jeopardythemesong);
+        final MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.voices);
         mediaPlayer.setLooping(true);
         mediaPlayer.start();
 
@@ -204,6 +204,8 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void nextQuestion(View view) {
+        final MediaPlayer mediaPlayer2 = MediaPlayer.create(this, R.raw.scream);
+        mediaPlayer2.start();
         if (currQuestionIndex == 4) {
             timer.cancel();
             Intent intent = new Intent(this, ResultActivity.class);

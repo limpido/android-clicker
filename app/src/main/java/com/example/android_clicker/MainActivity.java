@@ -22,9 +22,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
     }
-
     public void startQuiz(View view) {
-        final MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.instrumentstrum);
+        final MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.scream);
         mediaPlayer.start();
 
         Intent intent = new Intent(this, QuizActivity.class);
