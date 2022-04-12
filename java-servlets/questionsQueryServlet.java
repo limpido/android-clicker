@@ -43,34 +43,39 @@ public class questionsQueryServlet extends HttpServlet {
 
       
          sqlStr = "select * from qna ";
-         ResultSet rset = stmt.executeQuery(sqlStr);  // Send the query to the server
-            
-         // Step 4: Process the query result set
-         out.println("<form method='get' action='statsquary'>");   
-         int count = 0;
 
-          //print order button
-         while(rset.next()) {
-            // Print a paragraph <p>...</p> for each record
-            out.println("<p><input type='checkbox' name='questionID' value="
-                  + "'" + rset.getString("id") + "' />" 
-                  + rset.getString("id")
-                  + ", " + rset.getString("question")
-                  + "<p>" + rset.getString("answer1")+ "</p><p>" 
-                  + rset.getString("answer2")+"</p><p>"
-                  + rset.getString("answer3")+"</p><p>"
-                  + rset.getString("answer4")+ "</p>");
-            count++;
+          if(sqlStr == null){
+            out.println("<form method='get' action='http://localhost:9999/gameshop/gamesearch.html'>");
+            out.println("<p><input type='submit' value='try again' />");
+            out.println("</form>");
          }
-         out.println("<p><input type='submit' value='Check Stats' />");
-         
-         out.println("</form>");
-         out.println("<p>==== " + count + " records found =====</p>");
-         
-         out.println("<form method='get' action='http://localhost:9999/triviaLib/stats.html'>");//rstart search
-         out.println("<p><input type='submit' value='continue searching' />");
-         out.println("</form>");
-        
+         else{
+            ResultSet rset = stmt.executeQuery(sqlStr);  // Send the query to the server
+               
+            // Step 4: Process the query result set
+            out.println("<form method='get' action='statsquary'>");   
+            int count = 0;
+
+             //print order button
+            while(rset.next()) {
+               // Print a paragraph <p>...</p> for each record
+               out.println("<p><input type='checkbox' name='questionID' value="
+                     + "'" + rset.getString("id") + "' />(Q" 
+                     + rset.getString("id")+ ")"
+                     + ":" + rset.getString("question")+ "<p>"
+                     + "option 1: "+ rset.getString("answer1")+ "</p><p>" 
+                     + "option 2: "+ rset.getString("answer2")+"</p><p>"
+                     + "option 3: "+ rset.getString("answer3")+"</p><p>"
+                     + "option 4: "+ rset.getString("answer4")+"</p><p>"
+                     + "correctAnscorrect answer is "+ rset.getString("correctAns")+ "</p>");
+               count++;
+            }
+
+
+            out.println("<p><input type='submit' value='Check Stats' />");
+            
+            out.println("</form>");
+         }
 
          
       } catch(Exception ex) {

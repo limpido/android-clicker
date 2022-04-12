@@ -37,25 +37,30 @@ public class statrsQueryServlet extends HttpServlet {
          Statement stmt = conn.createStatement();
       ) {
          String[] questionID = request.getParameterValues("questionID");
+
+         if (questionID != null) {
          //out.println("title:" +searchtitle+ "genre:" + searchgenre+ "price:"+searchprice);
          // Step 3: Execute a SQL SELECT query
          String sqlStr;
             int count;
             double cost = 0;
             ResultSet rset;
-            out.println("<p>Your cart:</p>");
+            out.println("<p>your stats:</p>");
             for (int x=0; x<questionID.length; ++x){//get's game data and adds to cart 
-              
+               sqlStr = "select * from qna where id = " + questionID[x];
+               //out.println("<p>" + sqlStr + "</p>");  // for debugging
+               rset =  stmt.executeQuery(sqlStr);
+               rset.next();
+               out.println("<p>(" +rset.getString("id")+ ")" +rset.getString("question")+ "</p>");
+
                sqlStr = "select * from Stats where id = " + questionID[x];
                //out.println("<p>" + sqlStr + "</p>");  // for debugging
                rset =  stmt.executeQuery(sqlStr);
                rset.next();
-               out.println("<p>(" +rset.getString("id")+ ")</p>"
-                 
-               +"times selected = "+ rset.getString("choice1")+"</p><p>"
-               +"times selected = "+ rset.getString("choice2")+"</p><p>"
-               +"times selected = "+ rset.getString("choice3")+"</p><p>"
-               +"times selected = "+ rset.getString("choice4")+"</p><p>"
+               out.println("<p>"+"option 1 times selected = "+ rset.getString("choice1")+"</p><p>"
+               +"option 2 times selected = "+ rset.getString("choice2")+"</p><p>"
+               +"option 3 times selected = "+ rset.getString("choice3")+"</p><p>"
+               +"option 4 times selected = "+ rset.getString("choice4")+"</p><p>"
                +"times correct = "+ rset.getString("numCorrect")+"</p><p>"
                +"times asked = "+ rset.getString("timesAsked")+ "</p>");
             }
@@ -66,7 +71,12 @@ public class statrsQueryServlet extends HttpServlet {
          out.println("<form method='get' action='http://localhost:9999/clicker/triviaquary'>");//rstart search
          out.println("<p><input type='submit' value='search for more questions' />");
          out.println("</form>");
-         
+         }else {
+            out.println("<h3>Please go back and select questions...</h3>");
+            out.println("<form method='get' action='http://localhost:9999/clicker/triviaquary'>");//rstart search
+            out.println("<p><input type='submit' value='continue searching' />");
+            out.println("</form>");
+         }
 
          
       } catch(Exception ex) {
