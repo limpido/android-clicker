@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context=".QuizActivity">
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="413dp"
+        android:layout_height="734dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/murderhall" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="411dp"
+        android:layout_height="377dp"
+        android:layout_marginBottom="4dp"
+        android:baselineAligned="false"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.333"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            android:id="@+id/txtTimer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:textColor="#FCFF0000"/>
+
+        <TextView
+            android:id="@+id/questionDescText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/fontfam"
+            android:textSize="24sp"
+            android:textColor="#FCFF0000"/>
+
+        <Button
+            android:id="@+id/optionBtn1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/button_option_background_color"
+            android:fontFamily="@font/fontfam"
+            android:textSize="24sp"
+            android:textColor="#FCFF0000"/>
+
+        <Button
+            android:id="@+id/optionBtn2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/button_option_background_color"
+            android:fontFamily="@font/fontfam"
+            android:textSize="24sp"
+            android:textColor="#FCFF0000"/>
+
+
+        <Button
+            android:id="@+id/optionBtn4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/button_option_background_color"
+            android:fontFamily="@font/fontfam"
+            android:textSize="24sp"
+            android:textColor="#FCFF0000"/>
+
+        <Button
+            android:id="@+id/optionBtn3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/button_option_background_color"
+            android:fontFamily="@font/fontfam"
+            android:textSize="24sp"
+            android:textColor="#FCFF0000"/>
+
+        <Button
+            android:id="@+id/submitBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/black"
+            android:fontFamily="@font/fontfam"
+            android:onClick="nextQuestion"
+            android:textColor="#FCFF0000"
+            android:textSize="24sp" />
+
+
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

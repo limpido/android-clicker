@@ -9,7 +9,8 @@ create table qna (
     answer2 varchar(50),
     answer3 varchar(50),
     answer4 varchar(50),
-    correctAns int);
+    correctAns int,
+    primary key (id));
     
 insert into qna values (101, 'What does “www” stand for in a website browser?', 'World Wide Web', 'Wild Wild West', 'Worldly Workers Weekly', 'Wide Woke World', 1);
 insert into qna values (102, 'How long is an Olympic swimming pool (in meters)?', '30 meters', '50 meters', '100 meters', '60 meters', 2);
@@ -37,14 +38,15 @@ select * from qna;
 
 
 drop table if exists Stats;
-create table stats(
-    Id int,
+create table Stats(
+    id int,
     choice1 int,
     choice2 int,
     choice3 int,
     choice4 int,
     numCorrect int,
-    timesAskeed int);
+    timesAsked int,
+    primary key (id));
 
 insert into Stats values (101, 0 , 0 , 0, 0, 0, 0);
 insert into Stats values (102, 0 , 0 , 0, 0, 0, 0);
@@ -68,11 +70,3 @@ insert into Stats values (119, 0 , 0 , 0, 0, 0, 0);
 insert into Stats values (120, 0 , 0 , 0, 0, 0, 0);
 
 select * from Stats;
-
-drop table if exists Asked;
-create table stats(
-    QNo int,
-    Id int
-    correct int);
-
-select * from Asked;
