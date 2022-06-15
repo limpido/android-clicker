@@ -91,7 +91,7 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
         optionBtns.add(optionBtn3);
         optionBtns.add(optionBtn4);
 
-        new GetQuestions().execute("http://192.168.1.102:9999/clicker/questions");
+        new GetQuestions().execute("http://172.20.10.13:9999/clicker/questions");
     }
 
 
@@ -158,6 +158,11 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
                 while ((line = reader.readLine()) != null) {
                     buffer.append(line+"\n");
                 }
+
+                if (urlConnection instanceof HttpURLConnection) {
+                    HttpURLConnection httpConn = (HttpURLConnection) urlConnection;
+                    int statusCode = httpConn.getResponseCode();
+                }
                 return buffer.toString();
             } catch (Exception e) {
                 e.printStackTrace();
@@ -185,7 +190,8 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
                 int length = questions.length();
                 Set<Integer> indexSet = new HashSet<>();
                 while(indexSet.size() != 5){
-                    int randomIndex = 1 + (int) (Math.random() * length);
+                    // [0, 1)  [0, 19)
+                    int randomIndex = (int) (Math.random() * length);
                     indexSet.add(randomIndex);
                 }
                 int i = 0;
@@ -202,7 +208,7 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void saveCurrAnswerStats() {
-        new SaveAnswerStats().execute("http://192.168.1.102:9999/clicker/stats");
+        new SaveAnswerStats().execute("http://172.20.10.13:9999/clicker/stats");
     }
 
     private class SaveAnswerStats extends AsyncTask<String, String, String> {
@@ -219,7 +225,6 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
                 urlConnection.setUseCaches(false);
                 urlConnection.setDoOutput(true);
 
-                Log.d(null, currAnswerStats.toString());
                 OutputStream os = urlConnection.getOutputStream();
                 BufferedWriter writer = new BufferedWriter(
                         new OutputStreamWriter(os, "UTF-8"));
@@ -231,13 +236,10 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
                 if (urlConnection instanceof HttpURLConnection) {
                     HttpURLConnection httpConn = (HttpURLConnection) urlConnection;
                     int statusCode = httpConn.getResponseCode();
-                    Log.d(null, Integer.toString(statusCode));
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {
-//                if (urlConnection != null)
-//                    urlConnection.disconnect();
             }
             return null;
         }
@@ -270,7 +272,6 @@ public class QuizActivity extends AppCompatActivity implements View.OnClickListe
     public void nextQuestion(View view) {
         final MediaPlayer mediaPlayer2 = MediaPlayer.create(this, R.raw.scream);
         mediaPlayer2.start();
-        Log.d(null, currQuestion.toString());
         try {
             JSONObject question = questions.getJSONObject(currQuestionIndex);
             int correctAns = question.getInt("correctAns");
